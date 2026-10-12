@@ -3,6 +3,8 @@
 Usage:
     python main.py path/to/image.jpg [more images...]
     python main.py                      # runs on the 4 sample images included in the repo
+
+For a graphical interface run app.py instead.
 """
 import argparse
 
@@ -14,13 +16,13 @@ from model1trained import CLASS_NAMES, IMG_SIZE, load_trained_model
 SAMPLE_IMAGES = ["glioma.jpg", "meningioma.jpg", "no_tumor.jpg", "pituitary.jpg"]
 
 
-def preprocess(image_path):
-    """Open an image the same way Keras did during training: RGB, 180x180, bilinear resize.
+def preprocess(img):
+    """Prepare a PIL image the same way Keras did during training: RGB, 180x180, bilinear resize.
 
     Grayscale MRIs are expanded to 3 identical channels. Scaling pixels to 0-1 is done by the
     Rescaling layer inside the model, so raw 0-255 values are passed here.
     """
-    img = Image.open(image_path).convert("RGB").resize(IMG_SIZE, Image.Resampling.BILINEAR)
+    img = img.convert("RGB").resize(IMG_SIZE, Image.Resampling.BILINEAR)
     return np.asarray(img, dtype="float32")[np.newaxis, ...]  # shape (1, 180, 180, 3)
 
 
@@ -29,9 +31,14 @@ def softmax(logits):
     return e / e.sum()
 
 
+def predict_probs(model, img):
+    """Return the probability of each class (in CLASS_NAMES order) for a PIL image."""
+    logits = model.predict(preprocess(img), verbose=0)[0]
+    return softmax(logits)  # the model outputs logits; softmax turns them into probabilities
+
+
 def img_prediction(model, image_path):
-    logits = model.predict(preprocess(image_path), verbose=0)[0]
-    probs = softmax(logits)  # the model outputs logits; softmax turns them into probabilities
+    probs = predict_probs(model, Image.open(image_path))
     idx = int(np.argmax(probs))
 
     print(f"\nImagen: {image_path}")

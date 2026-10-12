@@ -13,3 +13,6 @@ venv2/
 
 # Copia byte-idéntica de Training/ y Testing/ que ningún script usa
 TP2/Fotos/
+
+# Gradio cache / flagged examples
+.gradio/

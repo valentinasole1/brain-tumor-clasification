@@ -19,6 +19,7 @@ Final project for *Procesamiento de Imágenes y Señales Biomédicas* by Valenti
 | `ConvolutionalTF.py` | Builds the datasets, trains the CNN and saves `model1.h5`, `Model1History.csv` and `training_curves.png` |
 | `model1trained.py` | Loads `model1.h5` and reports train / validation / test accuracy. Also exposes `load_trained_model()` |
 | `main.py` | Classifies one or more MRI images from the command line |
+| `app.py` | Web interface: upload an MRI in the browser and see the predicted class with probabilities |
 | `model1.h5` | The trained model (12 epochs) |
 | `Model1History.csv` | Accuracy and loss per epoch of that training run |
 | `Training/`, `Testing/` | The dataset, one sub-folder per class |
@@ -38,7 +39,18 @@ pip install -r requirements.txt
 
 ## Usage
 
-**Classify an image** (the trained model is included, no dataset needed):
+**Web interface** (the trained model is included, no dataset needed):
+
+```bash
+python app.py
+```
+
+Then open http://127.0.0.1:7860 in your browser, drop an MRI image (or pick one of the examples) and
+press *Submit*. The result shows the probability of each class.
+
+![Web interface](docs/ui.png)
+
+**Classify an image from the command line:**
 
 ```bash
 python main.py path/to/mri.jpg            # one or more images
