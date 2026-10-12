@@ -16,3 +16,7 @@ TP2/Fotos/
 
 # Gradio cache / flagged examples
 .gradio/
+
+# Vercel CLI link metadata and local env
+.vercel/
+.env*.local

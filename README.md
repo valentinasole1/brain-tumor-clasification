@@ -9,6 +9,10 @@ This Python project classifies brain MRIs into 4 labels:
 * Pituitary tumor
 * No tumor
 
+**Live demo: https://brain-tumor-clasification.vercel.app** — classify an MRI directly in your browser, nothing to install. The model runs client-side with TensorFlow.js, so the image never leaves your computer.
+
+![Web demo](docs/web.png)
+
 Final project for *Procesamiento de Imágenes y Señales Biomédicas* by Valentina Sole and Martina Villar
 (December 2023). The written report is in [`Trabajo Final.pdf`](Trabajo%20Final.pdf).
 
@@ -20,6 +24,8 @@ Final project for *Procesamiento de Imágenes y Señales Biomédicas* by Valenti
 | `model1trained.py` | Loads `model1.h5` and reports train / validation / test accuracy. Also exposes `load_trained_model()` |
 | `main.py` | Classifies one or more MRI images from the command line |
 | `app.py` | Web interface: upload an MRI in the browser and see the predicted class with probabilities |
+| `web/` | Static web version deployed on Vercel: `index.html` + the model converted to TensorFlow.js (`web/model/`) |
+| `tools/h5_to_tfjs.py` | Converts `model1.h5` to the TensorFlow.js format used by `web/` |
 | `model1.h5` | The trained model (12 epochs) |
 | `Model1History.csv` | Accuracy and loss per epoch of that training run |
 | `Training/`, `Testing/` | The dataset, one sub-folder per class |
@@ -39,7 +45,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-**Web interface** (the trained model is included, no dataset needed):
+**Local web interface** (the trained model is included, no dataset needed):
 
 ```bash
 python app.py
@@ -123,6 +129,28 @@ Per-class recall on the test set: glioma 89.7%, meningioma 81.4%, notumor 99.3%,
 Most errors are meningiomas predicted as glioma or pituitary. The gap between train and validation
 accuracy shows the model overfits; `Model1History.csv` shows the validation loss stops improving
 around epoch 9.
+
+## Web version (Vercel)
+
+`web/` is a static page that loads the model with [TensorFlow.js](https://www.tensorflow.org/js) and classifies the
+image inside the browser. There is no server: Vercel only serves the HTML, the 16 MB model and the example images.
+It is live at https://brain-tumor-clasification.vercel.app.
+
+* The preprocessing mirrors training (RGB, 180x180 bilinear resize, raw 0-255 pixels), so predictions match the
+  Python scripts up to small rounding differences from the resize implementation.
+* `web/model/` was generated from `model1.h5` with `tools/h5_to_tfjs.py`. Regenerate it after retraining:
+
+  ```bash
+  python tools/h5_to_tfjs.py model1.h5 web/model
+  ```
+
+* Run it locally with any static server, for example `python -m http.server 8000 --directory web`, and open
+  http://localhost:8000.
+* Deploy with the [Vercel CLI](https://vercel.com/docs/cli) from inside `web/` (`cd web && npx vercel --prod`), or
+  import the GitHub repository in Vercel and set **Root Directory** to `web`.
+
+The Gradio app (`app.py`) cannot be deployed to Vercel as-is: TensorFlow exceeds the serverless function size limit
+and Gradio needs a long-running server. Hugging Face Spaces is the usual free host for Gradio apps.
 
 ## Notes
 
