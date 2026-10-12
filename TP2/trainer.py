@@ -1,30 +1,28 @@
-from sklearn import *
+"""Train the shape classifier (circle=1, star=2, triangle=3) from the Hu moments stored in data.xlsx.
+
+Usage (from the TP2/ folder):
+    python trainer.py
+
+Outputs classifier.joblib, used by predictor.py and predictorNuevo.py.
+"""
+import pandas as pd
 from joblib import dump
-import xlwings as xw
-from sklearn.model_selection import train_test_split # Import train_test_split function
+from sklearn import tree
+from sklearn.model_selection import train_test_split  # Import train_test_split function
 
-ws = xw.Book("data.xlsx").sheets['sheet1']
-y = ws.range("A2:A31").value
-hu1 = ws.range("B2:B31").value
-hu2 = ws.range("C2:C31").value
-hu3 = ws.range("D2:D31").value
-hu4 = ws.range("E2:E31").value
-hu5 = ws.range("F2:F31").value
-hu6 = ws.range("G2:G31").value
-hu7 = ws.range("H2:H31").value
-x = [
-    [float(hu1[i].strip("[]")),
-     float(hu2[i].strip("[]")),
-     float(hu3[i].strip("[]")),
-     float(hu4[i].strip("[]")),
-     float(hu5[i].strip("[]")),
-     float(hu6[i].strip("[]")),
-     float(hu7[i].strip("[]"))]
-    for i in range(30)
-]
+HU_COLUMNS = ["hu1", "hu2", "hu3", "hu4", "hu5", "hu6", "hu7"]
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=1) # 70% training and 30% test
-int_array = list(map(int, y_train))
-classifier = tree.DecisionTreeClassifier().fit(x_train, int_array)
+
+def to_float(value):
+    # DescriptorGenerator.py stores each Hu moment as a 1-element array, which Excel keeps as "[0.52...]".
+    return float(str(value).strip("[]"))
+
+
+data = pd.read_excel("data.xlsx", sheet_name="sheet1")
+y = data["tags"].astype(int).tolist()
+x = [[to_float(v) for v in row] for row in data[HU_COLUMNS].itertuples(index=False)]
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=1)  # 70% training and 30% test
+classifier = tree.DecisionTreeClassifier().fit(x_train, y_train)
+print("Test accuracy:", round(classifier.score(x_test, y_test), 3))
 dump(classifier, 'classifier.joblib')
-

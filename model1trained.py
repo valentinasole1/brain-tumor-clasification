@@ -1,44 +1,55 @@
+"""Load the trained model (model1.h5) and report its accuracy on the train, validation and test sets.
+
+Usage:
+    python model1trained.py
+
+Also used as a module by main.py (load_trained_model, CLASS_NAMES, IMG_SIZE).
+"""
+import warnings
+
 import numpy as np
-import tensorflow as tf
-import keras.api._v2.keras as keras
-from keras import layers, models, Sequential
-from keras.callbacks import EarlyStopping
-from keras.layers import Flatten, Dense
-from matplotlib import pyplot as plt
-import numpy as np
+import keras
 
-# Recrea exactamente el mismo modelo solo desde el archivo
-model_mlp = keras.models.load_model('model1.h5')
+MODEL_PATH = "model1.h5"
+IMG_SIZE = (180, 180)
+BATCH_SIZE = 32
+# Alphabetical order of the sub-folders in Training/, which is the order Keras assigns to the labels.
+CLASS_NAMES = ["glioma", "meningioma", "notumor", "pituitary"]
 
-dataset_path = "Training"
-batch_size = 32
-img_height = 180
-img_width = 180
-train_ds = tf.keras.utils.image_dataset_from_directory(
-    dataset_path,
-    validation_split=0.2,
-    subset="training",
-    seed=123,
-    image_size=(img_height, img_width),
-    batch_size=batch_size)
-val_ds = tf.keras.utils.image_dataset_from_directory(
-    dataset_path,
-    validation_split=0.2,
-    subset="validation",
-    seed=123,
-    image_size=(img_height, img_width),
-    batch_size=batch_size)
-test_ds = tf.keras.utils.image_dataset_from_directory(
-  "Testing",
-  seed=123,
-  image_size=(180, 180),
-  batch_size=32)
 
-# Verifique que la precisión sea la correcta
-mlp_train_loss, mlp_train_acc = model_mlp.evaluate(train_ds, verbose=0)
-print('\nTrain accuracy:', np.round(mlp_train_acc, 3))
-mlp_val_loss, mlp_val_acc = model_mlp.evaluate(val_ds, verbose=0)
-print('\nValidation accuracy:', np.round(mlp_val_acc, 3))
-mlp_test_loss, mlp_test_acc = model_mlp.evaluate(test_ds, verbose=0)
-print('\nTest accuracy:', np.round(mlp_test_acc, 3))
+def load_trained_model(path=MODEL_PATH):
+    """Load the model saved by ConvolutionalTF.py.
 
+    model1.h5 was saved with Keras 2.15. Keras 3 cannot deserialize its compile configuration,
+    so the architecture and weights are loaded alone and the model is compiled again with the
+    same optimizer, loss and metrics used for training.
+    """
+    with warnings.catch_warnings():
+        # The legacy file stores an `input_shape` on its first layer; Keras 3 only warns about it.
+        warnings.filterwarnings("ignore", message=".*input_shape.*", category=UserWarning)
+        model = keras.models.load_model(path, compile=False)
+    model.compile(optimizer="adam",
+                  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                  metrics=["accuracy"])
+    return model
+
+
+def build_datasets():
+    """Recreate the same train / validation / test splits used in ConvolutionalTF.py."""
+    train_ds = keras.utils.image_dataset_from_directory(
+        "Training", validation_split=0.2, subset="training", seed=123,
+        image_size=IMG_SIZE, batch_size=BATCH_SIZE)
+    val_ds = keras.utils.image_dataset_from_directory(
+        "Training", validation_split=0.2, subset="validation", seed=123,
+        image_size=IMG_SIZE, batch_size=BATCH_SIZE)
+    test_ds = keras.utils.image_dataset_from_directory(
+        "Testing", seed=123, image_size=IMG_SIZE, batch_size=BATCH_SIZE)
+    return train_ds, val_ds, test_ds
+
+
+if __name__ == "__main__":
+    model = load_trained_model()
+    train_ds, val_ds, test_ds = build_datasets()
+    for name, ds in [("Train", train_ds), ("Validation", val_ds), ("Test", test_ds)]:
+        loss, acc = model.evaluate(ds, verbose=0)
+        print(f"\n{name} accuracy: {np.round(acc, 3)}")

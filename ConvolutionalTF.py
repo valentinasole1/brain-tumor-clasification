@@ -1,8 +1,18 @@
+"""Train a CNN that classifies brain MRIs into 4 classes: glioma, meningioma, notumor, pituitary.
+
+Usage:
+    python ConvolutionalTF.py
+
+Expects the dataset in Training/<class>/*.jpg and Testing/<class>/*.jpg (see README.md).
+Outputs:
+    model1.h5            trained model
+    Model1History.csv    accuracy / loss per epoch
+    training_curves.png  accuracy and loss plots
+"""
 import numpy as np
-import tensorflow as tf
-import keras.api._v2.keras as keras
-from keras import layers, models, Sequential
-from keras.callbacks import EarlyStopping, CSVLogger
+import keras
+from keras import layers, Sequential
+from keras.callbacks import CSVLogger
 from matplotlib import pyplot as plt
 
 # ------- Building the datasets -------
@@ -10,37 +20,36 @@ dataset_path = "Training"
 batch_size = 32
 img_height = 180
 img_width = 180
-train_ds = tf.keras.utils.image_dataset_from_directory(
+train_ds = keras.utils.image_dataset_from_directory(
     dataset_path,
     validation_split=0.2,
     subset="training",
     seed=123,
     image_size=(img_height, img_width),
     batch_size=batch_size)
-val_ds = tf.keras.utils.image_dataset_from_directory(
+val_ds = keras.utils.image_dataset_from_directory(
     dataset_path,
     validation_split=0.2,
     subset="validation",
     seed=123,
     image_size=(img_height, img_width),
     batch_size=batch_size)
-
-test_ds = tf.keras.utils.image_dataset_from_directory(
+test_ds = keras.utils.image_dataset_from_directory(
     "Testing",
     seed=123,
     image_size=(img_height, img_width),
     batch_size=batch_size)
 
-# ------- Normalization of the images -------
-normalization_layer = layers.Rescaling(1. / 255)
-normalized_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))
-image_batch, labels_batch = next(iter(normalized_ds))
-class_names = train_ds.class_names
+class_names = train_ds.class_names  # alphabetical order of the sub-folders: glioma, meningioma, notumor, pituitary
 num_classes = len(class_names)
+print("Classes:", class_names)
 
 # ---- Model building -----
+# Pixel normalization (0-255 -> 0-1) is done by the Rescaling layer inside the model,
+# so exactly the same preprocessing is applied when training and when predicting.
 model_CNN = Sequential([
-    layers.Rescaling(1. / 255, input_shape=(img_height, img_width, 3)),
+    layers.Input(shape=(img_height, img_width, 3)),
+    layers.Rescaling(1. / 255),
     layers.Conv2D(16, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(),
     layers.Conv2D(32, 3, padding='same', activation='relu'),
@@ -54,12 +63,12 @@ model_CNN = Sequential([
 ])
 # ----- Compile the model ----
 model_CNN.compile(optimizer='adam',
-                  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
 model_CNN.summary()
 
 epochs = 12
-csv_logger = CSVLogger('Model1History.csv') # Store the model training in a .csv
+csv_logger = CSVLogger('Model1History.csv')  # Store the model training in a .csv
 
 # Train the model
 history = model_CNN.fit(
@@ -93,6 +102,7 @@ plt.plot(epochs_range, loss, label='Training Loss')
 plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
+plt.savefig('training_curves.png')
 plt.show()
 
 # ----- Testing the model -----

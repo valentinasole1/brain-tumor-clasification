@@ -1,34 +1,51 @@
-import cv2
-from PIL import Image
-import tensorflow as tf
+"""Classify one or more brain MRI images with the trained model.
+
+Usage:
+    python main.py path/to/image.jpg [more images...]
+    python main.py                      # runs on the 4 sample images included in the repo
+"""
+import argparse
+
 import numpy as np
+from PIL import Image
 
-from model1trained import train_ds
+from model1trained import CLASS_NAMES, IMG_SIZE, load_trained_model
 
-glioma = '/Users/martuvillar/glioma.jpg'
-no_tumor = '/Users/martuvillar/sano.jpg'
-pituitary = '/Users/martuvillar/pitutiary.jpg'
-meningioma = 'Users/martuvillar/meningioma.jpg'
-
-model = tf.keras.models.load_model('model1.h5')
-
-def img_prediction(image):
-
-    img = Image.open(image)
-    opencvImage = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
-    img = cv2.resize(opencvImage, (180, 180))
-    img = img.reshape(1, 180, 180, 3)
-    p = model.predict(img)
-
-    class_names = train_ds.class_names
-
-    predicted_class = np.argmax(p[0])
-    confidence = p[0][predicted_class]
-
-    predicted_label = class_names[predicted_class]
-    print("Predicción:", predicted_label)
-    print("Confianza:", confidence)
-    print("P", p)
+SAMPLE_IMAGES = ["glioma.jpg", "meningioma.jpg", "no_tumor.jpg", "pituitary.jpg"]
 
 
-img_prediction(pituitary)
+def preprocess(image_path):
+    """Open an image the same way Keras did during training: RGB, 180x180, bilinear resize.
+
+    Grayscale MRIs are expanded to 3 identical channels. Scaling pixels to 0-1 is done by the
+    Rescaling layer inside the model, so raw 0-255 values are passed here.
+    """
+    img = Image.open(image_path).convert("RGB").resize(IMG_SIZE, Image.Resampling.BILINEAR)
+    return np.asarray(img, dtype="float32")[np.newaxis, ...]  # shape (1, 180, 180, 3)
+
+
+def softmax(logits):
+    e = np.exp(logits - logits.max())
+    return e / e.sum()
+
+
+def img_prediction(model, image_path):
+    logits = model.predict(preprocess(image_path), verbose=0)[0]
+    probs = softmax(logits)  # the model outputs logits; softmax turns them into probabilities
+    idx = int(np.argmax(probs))
+
+    print(f"\nImagen: {image_path}")
+    print(f"Predicción: {CLASS_NAMES[idx]}")
+    print(f"Confianza: {probs[idx]:.1%}")
+    print("Probabilidades:", ", ".join(f"{c}={p:.1%}" for c, p in zip(CLASS_NAMES, probs)))
+    return CLASS_NAMES[idx], float(probs[idx])
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Classify brain MRI images with the trained CNN.")
+    parser.add_argument("images", nargs="*", help="image files to classify (default: the 4 sample images)")
+    args = parser.parse_args()
+
+    model = load_trained_model()
+    for path in args.images or SAMPLE_IMAGES:
+        img_prediction(model, path)

@@ -1,0 +1,9 @@
+# TP2: shape classification (circle / star / triangle) with Hu moments + decision tree, webcam demo
+# Install with: pip install -r TP2/requirements.txt
+opencv-python==5.0.0.93
+numpy==2.5.4
+pandas==3.0.6
+openpyxl==3.1.5
+scikit-learn==1.9.1
+joblib==1.6.0
+matplotlib==3.11.2
