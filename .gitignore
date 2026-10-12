@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# IDE (PyCharm)
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+venv2/
+.venv/
+
+# Copia byte-idéntica de Training/ y Testing/ que ningún script usa
+TP2/Fotos/
