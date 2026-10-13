@@ -39,7 +39,7 @@ v2 (`model2.keras`) attacks both problems:
 | Augmentation | none | blur, JPEG, low resolution, frames, overlays, pointer lines, captions, noise, rotation, zoom, contrast |
 | Probabilities | raw softmax | **temperature-scaled**, with a confidence threshold below which the answer is "not sure" |
 | Dataset test accuracy | 92.9% | 96.9% |
-| Real web images ([stress test](stress/RESULTS.md)) | 12/39 correct correct | 22/39 correct, 7 unsure, 10 wrong |
+| Real web images ([stress test](stress/RESULTS.md)) | 12/39 correct | 22/39 correct, 7 unsure, 10 wrong |
 
 The crop removes most of the shortcuts (frame, resolution, captions, pointer lines outside the head), the grayscale
 conversion removes color, the augmentation teaches the network to ignore the rest, the "other" class gives it a way
