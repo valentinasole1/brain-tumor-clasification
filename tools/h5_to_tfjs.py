@@ -5,7 +5,12 @@ Usage (from the repository root):
 
 Only needs h5py and numpy (both installed with tensorflow). The output is what web/index.html loads.
 """
-import h5py, numpy as np
+import json
+import os
+import sys
+
+import h5py
+import numpy as np
 
 src, out = sys.argv[1], sys.argv[2]
 os.makedirs(out, exist_ok=True)

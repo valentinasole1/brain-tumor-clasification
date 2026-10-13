@@ -1,0 +1,22 @@
+{
+  "class_names": [
+    "glioma",
+    "meningioma",
+    "notumor",
+    "other",
+    "pituitary"
+  ],
+  "temperature": 1.1,
+  "threshold": 0.7,
+  "image_size": 224,
+  "validation": {
+    "accuracy": 0.9662,
+    "coverage_at_threshold": 0.9599,
+    "accuracy_when_confident": 0.9824
+  },
+  "test": {
+    "accuracy": 0.9687,
+    "coverage_at_threshold": 0.9627,
+    "accuracy_when_confident": 0.9819
+  }
+}

@@ -1,0 +1,40 @@
+file,expected,note,license,source
+gl_afip_1.jpg,glioma,"glioblastoma, AFIP teaching file",Public domain,https://commons.wikimedia.org/wiki/File:AFIP-00405558-Glioblastoma-Radiology.jpg
+gl_afip_2.jpg,glioma,"recurrent glioblastoma, AFIP teaching file",Public domain,https://commons.wikimedia.org/wiki/File:AFIP-00405589-Glioblastoma-Radiology.jpg
+gl_coronal_t1c.jpg,glioma,"glioblastoma, coronal T1 with contrast, 15-year-old",CC BY 2.5,https://commons.wikimedia.org/wiki/File:Glioblastoma_-_MR_coronal_with_contrast.jpg
+gl_axial_t1c.jpg,glioma,"glioblastoma, axial T1 with contrast",CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Glioblastoma_multiforme_-_MRT_T1KM_ax.jpg
+gl_axial_t1.jpg,glioma,"glioblastoma, axial T1 without contrast",CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Glioblastoma_multiforme_-_MRT_T1_ax.jpg
+gl_axial_t2.jpg,glioma,"glioblastoma, axial T2",CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Glioblastoma_multiforme_-_MRT_T2_ax.jpg
+gl_dipg_arrows.jpg,glioma,"pediatric pontine glioma, T2, white arrows drawn on the image",CC BY 4.0,https://commons.wikimedia.org/wiki/File:Pediatric_diffuse_intrinsic_pontine_glioma.jpg
+gl_brainstem.jpg,glioma,"brain stem glioma, axial with contrast",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Tumor_BrainstemGlioma1.JPG
+gl_angiocentric_t2.png,glioma,"angiocentric glioma, axial T2, 4-year-old",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:4-year-old-boy-with-angiocentric-glioma-Axial-T2weighted-image-shows-a-hyperintense.png
+me_falx_t1c.jpg,meningioma,"falx meningioma, T1 with contrast",CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Falxmeningeom_MRT_T1_mit_Kontrastmittel.jpg
+me_huge.jpg,meningioma,large meningioma,CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Huge_Meningioma.jpg
+me_coronal_t1c.png,meningioma,"meningioma, coronal with contrast",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:MRIMeningioma.png
+me_frontotemporal.jpg,meningioma,left fronto-temporal meningioma,CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Meningioma-MRT.jpg
+me_axial_t1c.jpg,meningioma,"meningioma, axial T1 with contrast",CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Tumor_Meningioma1.JPG
+me_coronal_t1c_2.jpg,meningioma,"meningioma, coronal T1 with contrast",CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Tumor_Meningioma2.JPG
+me_sagittal_t1c.jpg,meningioma,"meningioma, sagittal T1 with contrast",CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Tumor_Meningioma3.JPG
+me_axial_2.jpg,meningioma,"right-sided meningioma, axial",Copyrighted free use,https://commons.wikimedia.org/wiki/File:Meningeom_ax2.jpg
+me_multiple_nf2.jpg,meningioma,"multiple meningiomas (NF2), sagittal T1 with contrast",Public domain,https://commons.wikimedia.org/wiki/File:Recklinghausen2.jpg
+pi_prolactinoma.jpg,pituitary,prolactinoma,CC BY 4.0,https://commons.wikimedia.org/wiki/File:ProlactinomaMRI.jpg
+pi_macroadenoma.jpg,pituitary,macroadenoma with suprasellar extension (acromegaly),CC BY 2.0,https://commons.wikimedia.org/wiki/File:Acromegaly_pituitary_macroadenoma.JPEG
+pi_microadenoma_arrow.jpg,pituitary,"sagittal, microadenoma marked with an arrow, very large file",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Adenome_hypophyse_esp.jpg
+no_t2_axial_1.png,notumor,"normal brain, axial T2",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Brain-T2-axial.png
+no_t2_axial_2.jpg,notumor,"normal brain, axial T2 at the lateral ventricles",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Normal_axial_T2-weighted_MR_image_of_the_brain.jpg
+no_t2_coronal.jpg,notumor,"coronal T2 (from a Commons series, no tumor described)",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:MRI_Brain_T2_Cor_(10).jpg
+no_flair_1.jpg,notumor,"axial FLAIR (Commons series, no tumor described)",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Mri_Brain_Flair_Axial_(1).jpg
+no_flair_2.jpg,notumor,"axial FLAIR (Commons series, no tumor described)",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Mri_Brain_Flair_Axial_(10).jpg
+no_adc.jpg,notumor,"axial ADC map (diffusion), very different contrast",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:MRI_Brain_ADC_Axial_(1).jpg
+no_t1ir_arrow.jpg,notumor,"axial T1 inversion recovery, arrow pointing at the caudate head",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Cabeza_del_caudado.jpg
+no_bpan_t1.jpg,notumor,"T1, neurodegenerative disease (BPAN), no tumor",Public domain,https://commons.wikimedia.org/wiki/File:MRT_T1gewichtet_BPAN_Diagnostik.jpg
+no_ald_t2.jpg,notumor,"axial T2, adrenoleukodystrophy (white matter disease, no tumor)",CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Adrenoleukodystrophy.jpg
+pi_coronal_t1c.jpg,pituitary,"non-functioning pituitary adenoma, coronal T1 with contrast (downscaled to 1600 px)",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Coronal_section_of_non-functioning_pituitary_adenoma.jpg
+ot_photo_cat.jpg,other,photo of a cat (downscaled to 1600 px),CC BY-SA 3.0,https://commons.wikimedia.org/wiki/File:Cat_November_2010-1a.jpg
+ot_chest_xray.jpg,other,chest radiograph,CC0,https://commons.wikimedia.org/wiki/File:Normal_posteroanterior_(PA)_chest_radiograph_(X-ray).jpg
+ot_knee_mri.jpg,other,"knee MRI, sagittal T1",CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Knee_MRI_T1_TSE_Sagittal.jpg
+ot_lumbar_mri.jpg,other,"lumbar spine MRI, sagittal T2",CC0,https://commons.wikimedia.org/wiki/File:Lumbar_MRI_t2-tse-rst-sagittal_06.jpg
+ot_hand_xray.jpg,other,hand radiograph,CC BY 3.0,https://commons.wikimedia.org/wiki/File:814_Radiograph_of_Hand.jpg
+ot_histology.png,other,"meningioma histology (H&E), not an MRI",CC BY 4.0,https://commons.wikimedia.org/wiki/File:Histologic_variants_of_meningioma.png
+ot_ct_sinus.jpg,other,CT of the sinuses,CC0,https://commons.wikimedia.org/wiki/File:CT_of_chronic_sinusitis.jpg
+ot_photo_workstation.jpg,other,photo of a hospital MRI workstation,CC BY-SA 4.0,https://commons.wikimedia.org/wiki/File:Wx_camera_1507509040946.jpg

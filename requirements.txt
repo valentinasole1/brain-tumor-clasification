@@ -1,4 +1,4 @@
-# Brain tumor classifier (ConvolutionalTF.py, model1trained.py, main.py, app.py)
+# Brain tumor classifier (preprocessing.py, prepare_data.py, train_v2.py, main.py, app.py, stress_test.py and the v1 scripts)
 # Tested with Python 3.12 on macOS (Apple Silicon). Install with: pip install -r requirements.txt
 tensorflow==2.21.0
 keras==3.15.1
